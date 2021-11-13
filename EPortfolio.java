@@ -40,6 +40,15 @@ public class EPortfolio {
         menu.add(op6);
 
         // Adding Action Listeners to the Menu Items
+
+        op1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                home.dispose();
+                Frame buy = new Frame();
+                buy.setVisible(true);
+            }
+        });
+
         op6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 System.exit(0);
