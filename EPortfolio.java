@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -11,11 +12,16 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.FontUIResource;
+import java.awt.event.ActionEvent;
 
 public class EPortfolio {
     public static void main(String[] args) {
-        Frame home = new Frame();
 
+        // Instantiating the Frame for Home Menu
+        Frame home = new Frame();
+        home.setTitle("EPortfolio");
+
+        // Creating the Menu and Menu Items
         JMenu menu;
         JMenuItem op1, op2, op3, op4, op5, op6;
         JMenuBar mb = new JMenuBar();
@@ -33,6 +39,14 @@ public class EPortfolio {
         menu.add(op5);
         menu.add(op6);
 
+        // Adding Action Listeners to the Menu Items
+        op6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                System.exit(0);
+            }
+        });
+
+        // Adding styles to the Menu and Menu Items
         op1.setFont(new Font("Arial", Font.BOLD, 20));
         op2.setFont(new Font("Arial", Font.BOLD, 20));
         op3.setFont(new Font("Arial", Font.BOLD, 20));
@@ -42,7 +56,8 @@ public class EPortfolio {
 
         mb.add(menu);
         home.setJMenuBar(mb);
-        Font f = new FontUIResource(mb.getFont().getFontName(), mb.getFont().getStyle(), 35);
+
+        Font f = new FontUIResource(mb.getFont().getFontName(), mb.getFont().getStyle(), 30);
         UIManager.put("Menu.font", f);
         SwingUtilities.updateComponentTreeUI(home);
         mb.setOpaque(true);
@@ -51,12 +66,14 @@ public class EPortfolio {
         Border emptyBorder3 = new EmptyBorder(10, 10, 10, 10);
         mb.setBorder(emptyBorder3);
 
-        JLabel intro = new JLabel("Welcome To Your EPorfolio");
+        // Creating the Intro Label
+        JLabel intro = new JLabel("Welcome To Your EPortfolio");
         intro.setFont(new Font("Arial", Font.BOLD, 30));
         intro.setForeground(new Color(0xff4709));
         Border emptyBorder = new EmptyBorder(120, 10, 10, 10);
         intro.setBorder(emptyBorder);
 
+        // Creating the intro description
         JTextArea description = new JTextArea(5, 36);
         description.setText(
                 "Choose a command by clicking an Option from the “Commands” menu above to buy or sell an investment, update prices for all investments, get gain for the portfolio, search for relevant investments, or quit the program.");
@@ -69,6 +86,7 @@ public class EPortfolio {
         Border emptyBorder2 = new EmptyBorder(30, 10, 10, 10);
         description.setBorder(emptyBorder2);
 
+        // Adding the Elements to the Home Frame
         home.add(intro);
         home.add(description);
         home.setVisible(true);
