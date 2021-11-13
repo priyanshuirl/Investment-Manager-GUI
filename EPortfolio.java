@@ -1,56 +1,76 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
 
-import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.FontUIResource;
 
 public class EPortfolio {
     public static void main(String[] args) {
-        GUIFrame frame = new GUIFrame();// Instantiating the Frame
+        Frame home = new Frame();
 
-        JPanel panel1 = new JPanel();
-        panel1.setPreferredSize(new Dimension(200, 50));
-        panel1.setBackground(new Color(0x222222));
-        String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
-        JComboBox<String> petList = new JComboBox<String>(petStrings);
-        petList.setFont(new Font("Sans-Serif", Font.PLAIN, 30));
-        panel1.add(petList);
+        JMenu menu;
+        JMenuItem op1, op2, op3, op4, op5, op6;
+        JMenuBar mb = new JMenuBar();
+        menu = new JMenu("Commands Menu");
+        op1 = new JMenuItem("Buy Investments");
+        op2 = new JMenuItem("Sell Investments");
+        op3 = new JMenuItem("Update Investments");
+        op4 = new JMenuItem("Get Gain");
+        op5 = new JMenuItem("Search");
+        op6 = new JMenuItem("Quit");
+        menu.add(op1);
+        menu.add(op2);
+        menu.add(op3);
+        menu.add(op4);
+        menu.add(op5);
+        menu.add(op6);
 
-        JPanel panel2 = new JPanel();
-        panel2.setPreferredSize(new Dimension(100, 10));
-        panel2.setBackground(new Color(0x222222));
-        JLabel intro = new JLabel();// Creating the Intro Label
-        intro.setText("Welcome to Your EPortfolio");
-        intro.setFont(new Font("Sans-Serif", Font.BOLD, 36));
+        op1.setFont(new Font("Arial", Font.BOLD, 20));
+        op2.setFont(new Font("Arial", Font.BOLD, 20));
+        op3.setFont(new Font("Arial", Font.BOLD, 20));
+        op4.setFont(new Font("Arial", Font.BOLD, 20));
+        op5.setFont(new Font("Arial", Font.BOLD, 20));
+        op6.setFont(new Font("Arial", Font.BOLD, 20));
+
+        mb.add(menu);
+        home.setJMenuBar(mb);
+        Font f = new FontUIResource(mb.getFont().getFontName(), mb.getFont().getStyle(), 35);
+        UIManager.put("Menu.font", f);
+        SwingUtilities.updateComponentTreeUI(home);
+        mb.setOpaque(true);
+        mb.setBackground(new Color(0xff4709));
+        menu.setForeground(new Color(0xffffff));
+        Border emptyBorder3 = new EmptyBorder(10, 10, 10, 10);
+        mb.setBorder(emptyBorder3);
+
+        JLabel intro = new JLabel("Welcome To Your EPorfolio");
+        intro.setFont(new Font("Arial", Font.BOLD, 30));
         intro.setForeground(new Color(0xff4709));
-        panel2.add(intro);
+        Border emptyBorder = new EmptyBorder(120, 10, 10, 10);
+        intro.setBorder(emptyBorder);
 
-        JPanel panel3 = new JPanel();
-        panel3.setPreferredSize(new Dimension(100, 450));
-        panel3.setBackground(new Color(0x222222));
-        JTextArea textArea = new JTextArea(2, 44);
-        textArea.setText(
-                "Choose a command from the “Commands” menu to buy or sell an investment, update prices for all investments, get gain for the portfolio, search for relevant investments, or quit the program.");
-        textArea.setWrapStyleWord(true);
-        textArea.setLineWrap(true);
-        textArea.setOpaque(false);
-        textArea.setEditable(false);
-        textArea.setFocusable(false);
-        textArea.setBackground(UIManager.getColor("Label.background"));
-        textArea.setBorder(UIManager.getBorder("Label.border"));
-        textArea.setFont(new Font("Sans-Serif", Font.BOLD, 13));
-        textArea.setForeground(new Color(0xFFFFFF));
-        panel3.add(textArea);
+        JTextArea description = new JTextArea(5, 36);
+        description.setText(
+                "Choose a command by clicking an Option from the “Commands” menu above to buy or sell an investment, update prices for all investments, get gain for the portfolio, search for relevant investments, or quit the program.");
+        description.setFont(new Font("Verdana", Font.PLAIN, 16));
+        description.setForeground(new Color(0xffffff));
+        description.setLineWrap(true);
+        description.setWrapStyleWord(true);
+        description.setOpaque(false);
+        description.setEditable(false);
+        Border emptyBorder2 = new EmptyBorder(30, 10, 10, 10);
+        description.setBorder(emptyBorder2);
 
-        frame.add(panel1, BorderLayout.WEST);
-        frame.add(panel2, BorderLayout.CENTER);
-        frame.add(panel3, BorderLayout.SOUTH);
-
-        frame.setVisible(true);
+        home.add(intro);
+        home.add(description);
+        home.setVisible(true);
     }
 }
