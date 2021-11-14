@@ -349,6 +349,11 @@ public class EPortfolio {
                                     }
                                 }
                             }
+                            cb.setSelectedIndex(0);
+                            t1.setText("");
+                            t2.setText("");
+                            t3.setText("");
+                            t4.setText("");
                         } catch (Exception error) {
                             String out = "Something Went Wrong, Please Try Again.\n\nPlease make sure that\n1)You have not left any Field Blank\n2)You have entered an integer value only for Quantity.\n3)You have not entered any text in the Price and Quanity fields.";
                             display.setText(out);
@@ -514,11 +519,11 @@ public class EPortfolio {
                                                             } else {
                                                                 portfolio.getInvestments().remove(mutualFund);
                                                             }
-                                                            String out = "Successfully Sold the Mutual Funds!";
+                                                            String out = "Successfully Sold the Investments!";
                                                             display.setText(out);
                                                             display.setEditable(false);
                                                         } else {
-                                                            String out = "You don't have enough Mutual Funds to sell!";
+                                                            String out = "You don't have enough Investments to sell!";
                                                             display.setText(out);
                                                             display.setEditable(false);
                                                         }
@@ -561,11 +566,11 @@ public class EPortfolio {
                                                             } else {
                                                                 portfolio.getInvestments().remove(stock);
                                                             }
-                                                            String out = "Successfully Sold the Stock!";
+                                                            String out = "Successfully Sold the Investments!";
                                                             display.setText(out);
                                                             display.setEditable(false);
                                                         } else {
-                                                            String out = "You don't have enough stocks to sell in your Portfolio!";
+                                                            String out = "You don't have enough Investments to sell in your Portfolio!";
                                                             display.setText(out);
                                                             display.setEditable(false);
                                                         }
@@ -593,6 +598,9 @@ public class EPortfolio {
                                 display.setText(out);
                                 display.setEditable(false);
                             }
+                            t1.setText("");
+                            t3.setText("");
+                            t4.setText("");
                         } catch (Exception error) { // Catching the thrown exceptions
                             String out = "Something Went Wrong, Please Try Again.\n\nPlease make sure that\n1)You have not left any Field Blank\n2)You have entered an integer value only for Quantity.\n3)You have not entered any text in the Price and Quanity fields.";
                             display.setText(out);
@@ -827,6 +835,7 @@ public class EPortfolio {
                                     display.setEditable(false);
                                 }
                             }
+                            display.setText("");
                         } catch (Exception error) {
                             String out = "Something Went Wrong, Please Try Again.\n\nPlease make sure that you have not entered any text in the Price field or left it blank.";
                             display.setText(out);
@@ -863,37 +872,44 @@ public class EPortfolio {
 
                 // Panel for input fields
                 JPanel inputs = new JPanel();
-                inputs.setLayout(new FlowLayout(FlowLayout.CENTER));
+                inputs.setLayout(new FlowLayout(FlowLayout.LEFT));
                 inputs.setBackground(new Color(0x222222));
                 Border inputborder = new EmptyBorder(10, 10, 10, 10);
                 inputs.setBorder(inputborder);
 
-                JLabel buyhead = new JLabel("Updating Investments");
-                buyhead.setFont(new Font("Verdana", Font.BOLD, 21));
+                JLabel buyhead = new JLabel("Get Total Gain");
+                buyhead.setFont(new Font("Verdana", Font.BOLD, 44));
                 buyhead.setForeground(new Color(0xff4709));
                 Border inputhead = new EmptyBorder(10, 10, 10, 10);
                 inputs.setBorder(inputhead);
                 inputs.add(buyhead);
 
                 // Input for Symbol
-                JLabel symbol = new JLabel("Symbol : ");
-                symbol.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                JLabel symbol = new JLabel("Total Gain : ");
+                symbol.setFont(new Font("Sans-Serif", Font.BOLD, 40));
                 symbol.setForeground(new Color(0xffffff));
                 inputs.add(symbol);
                 JTextField t1 = new JTextField(10);
-                t1.setFont(new Font("Arial", Font.BOLD, 18));
+                t1.setFont(new Font("Arial", Font.BOLD, 30));
                 inputs.add(t1);
+                t1.setEditable(false);
 
                 actionpanel.add(inputs);
 
                 // Panel for displaying the results
                 JPanel msgpanel = new JPanel();
-                msgpanel.setLayout(new GridLayout(1, 1));
-                msgpanel.setBackground(new Color(0xff4709));
+                msgpanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                msgpanel.setBackground(new Color(0xffffff));
                 msgpanel.setBounds(40, 80, 200, 200);
 
+                JLabel gainh = new JLabel("Individual Gains : ");
+                gainh.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                gainh.setForeground(new Color(0xff4709));
+                Border gaint = new EmptyBorder(10, 10, 10, 10);
+                gainh.setBorder(gaint);
+
                 // Initialising the Display textarea
-                JTextArea display = new JTextArea(5, 36);
+                JTextArea display = new JTextArea(5, 30);
                 display.setFont(new Font("Arial", Font.BOLD, 20));
                 display.setLineWrap(true);
                 display.setWrapStyleWord(true);
@@ -902,14 +918,167 @@ public class EPortfolio {
                 JScrollPane scroll = new JScrollPane(display);
                 scroll.setForeground(new Color(0xffffff));
                 scroll.setOpaque(false);
-                msgpanel.add(scroll);
+                scroll.setBorder(null);
                 display.setEditable(false);
+
+                msgpanel.add(gainh);
+                msgpanel.add(scroll);
+
+                String gainstr = "";
+
+                double sgain = 0, mgain = 0, tgain, gainstock = 0, gainmf = 0;
+                if (portfolio.getInvestments() != null) {
+                    for (Investment stock : portfolio.getInvestments()) {
+                        if (stock.getType().equals("stock")) {
+                            int sellqnt = stock.getSellQty();
+                            double sellpricee = stock.getPrice();
+                            double val = (sellqnt * sellpricee);
+                            double val4 = stock.getBookValue();
+                            gainstock += val - val4 - stockCommission;
+                            gainstr += "\n" + "Gain for " + stock.getName() + " is " + (val - val4 - stockCommission);
+                        }
+                    }
+                    sgain = gainstock;
+                }
+                if (portfolio.getInvestments() != null) {
+                    for (Investment mutualFund : portfolio.getInvestments()) {
+                        if (mutualFund.getType().equals("mutualfund")) {
+                            int sellqnt = mutualFund.getSellQty();
+                            double sellpricee = mutualFund.getPrice();
+                            double vval = (sellqnt * sellpricee);
+                            double vval4 = mutualFund.getBookValue();
+                            gainmf += vval - vval4;
+                            gainstr += "\n" + "Gain for " + mutualFund.getName() + " is " + (vval - vval4);
+                        }
+                    }
+                    mgain = gainmf;
+                }
+                tgain = sgain + mgain;
+                if (tgain > 0) {
+                    t1.setText(String.valueOf(tgain));
+                    String out = gainstr;
+                    display.setText(out);
+                    display.setEditable(false);
+                } else {
+                    String out = "No Gains To show. You have Not made any Profits Yet.";
+                    display.setText(out);
+                    display.setEditable(false);
+                }
+
+                getgain.add(actionpanel);
+                getgain.add(msgpanel);
+                getgain.setVisible(true);
 
                 // Disposing the Panels
                 home.dispose();
                 buy.dispose();
                 sell.dispose();
                 update.dispose();
+            }
+        });
+
+        op5.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent ev) {
+                search.getContentPane().removeAll();
+                search.repaint();
+                search.setTitle("Sell Investments");
+                search.setJMenuBar(mb);
+
+                 // Creating Panels for Displaying Components
+                 JPanel actionpanel = new JPanel();
+                 actionpanel.setLayout(new GridLayout(1, 2, 16, 16));
+                 actionpanel.setBackground(new Color(0x222222));
+                 actionpanel.setBounds(40, 80, 200, 200);
+ 
+                 // Panel for input fields
+                 JPanel inputs = new JPanel();
+                 inputs.setLayout(new FlowLayout(FlowLayout.CENTER));
+                 inputs.setBackground(new Color(0x222222));
+                 Border inputborder = new EmptyBorder(10, 10, 10, 10);
+                 inputs.setBorder(inputborder);
+ 
+                 JLabel buyhead = new JLabel("Selling an Investment");
+                 buyhead.setFont(new Font("Verdana", Font.BOLD, 21));
+                 buyhead.setForeground(new Color(0xff4709));
+                 Border inputhead = new EmptyBorder(10, 10, 10, 10);
+                 inputs.setBorder(inputhead);
+                 inputs.add(buyhead);
+ 
+                 // Input for Symbol
+                 JLabel symbol = new JLabel("Symbol : ");
+                 symbol.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                 symbol.setForeground(new Color(0xffffff));
+                 inputs.add(symbol);
+                 JTextField t1 = new JTextField(10);
+                 t1.setFont(new Font("Arial", Font.BOLD, 18));
+                 inputs.add(t1);
+ 
+                 // Input for Quantity
+                 JLabel qty = new JLabel("Quantity : ");
+                 qty.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                 qty.setForeground(new Color(0xffffff));
+                 inputs.add(qty);
+                 JTextField t3 = new JTextField(6);
+                 t3.setFont(new Font("Arial", Font.BOLD, 18));
+                 inputs.add(t3);
+ 
+                 // Input for Price
+                 JLabel price = new JLabel("Price : ");
+                 price.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                 price.setForeground(new Color(0xffffff));
+                 inputs.add(price);
+                 JTextField t4 = new JTextField(6);
+                 t4.setFont(new Font("Arial", Font.BOLD, 18));
+                 inputs.add(t4);
+ 
+                 // Panel for buttons
+                 JPanel btns = new JPanel();
+                 btns.setLayout(new FlowLayout(FlowLayout.CENTER));
+                 btns.setBackground(new Color(0x222222));
+                 Border btnborder = new EmptyBorder(60, 50, 50, 50);
+                 btns.setBorder(btnborder);
+ 
+                 JButton reset = new JButton("Reset");
+                 JButton buyinv = new JButton("Sell");
+ 
+                 reset.setFocusable(false);
+                 buyinv.setFocusable(false);
+ 
+                 // Styling the Buttons
+                 reset.setBackground(new Color(0xff4709));
+                 reset.setForeground(new Color(0xffffff));
+                 buyinv.setBackground(new Color(0xff4709));
+                 buyinv.setForeground(new Color(0xffffff));
+                 reset.setFont(new Font("Arial", Font.BOLD, 30));
+                 buyinv.setFont(new Font("Arial", Font.BOLD, 30));
+                 reset.setPreferredSize(new Dimension(140, 50));
+                 btns.add(reset);
+                 buyinv.setPreferredSize(new Dimension(140, 50));
+                 btns.add(buyinv);
+ 
+                 actionpanel.add(inputs);
+                 actionpanel.add(btns);
+ 
+                 // Panel for displaying the results
+                 JPanel msgpanel = new JPanel();
+                 msgpanel.setLayout(new GridLayout(1, 1));
+                 msgpanel.setBackground(new Color(0xff4709));
+                 msgpanel.setBounds(40, 80, 200, 200);
+ 
+                 // Initialising the Display textarea
+                 JTextArea display = new JTextArea(5, 36);
+                 display.setFont(new Font("Arial", Font.BOLD, 20));
+                 display.setLineWrap(true);
+                 display.setWrapStyleWord(true);
+                 Border displayborder = new EmptyBorder(25, 25, 25, 25);
+                 display.setBorder(displayborder);
+                 JScrollPane scroll = new JScrollPane(display);
+                 scroll.setForeground(new Color(0xffffff));
+                 scroll.setOpaque(false);
+                 msgpanel.add(scroll);
+                 display.setEditable(false);
+
             }
         });
 
