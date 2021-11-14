@@ -97,6 +97,8 @@ public class EPortfolio {
 
         op1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
+                buy.getContentPane().removeAll();
+                buy.repaint();
                 buy.setTitle("Buy Investments");
                 buy.setJMenuBar(mb);
 
@@ -236,8 +238,9 @@ public class EPortfolio {
                                                 investment.setQuantity(investment.getQuantity() + invqty);
                                                 investment.setBookValue(bookValue);
                                                 investment.setPrice(price);
-                                                String out = "Updated the quantity to " + invqty + " and price to "
-                                                        + invprice + " for " + invname + " stocks.\n";
+                                                String out = "Updated the quantity to " + investment.getQuantity()
+                                                        + " and price to " + invprice + " for " + invname
+                                                        + " stocks.\n";
                                                 display.setText(out);
                                                 display.setEditable(false);
                                             } else {
@@ -298,8 +301,9 @@ public class EPortfolio {
                                                 investment.setQuantity(newQuantity);
                                                 investment.setBookValue(bookValue);
 
-                                                String out = "Updated the quantity to " + invqty + " and price to "
-                                                        + invprice + " for " + invname + " Mutual Fund.\n";
+                                                String out = "Updated the quantity to " + investment.getQuantity()
+                                                        + " and price to " + invprice + " for " + invname
+                                                        + " Mutual Fund.\n";
                                                 display.setText(out);
                                                 display.setEditable(false);
                                             } else {
@@ -364,13 +368,15 @@ public class EPortfolio {
                 buy.setVisible(true);
 
                 // Disposing the Panels
-                home.dispose();
                 sell.dispose();
+                home.dispose();
             }
         });
         // Adding action listener to the sell Menu Item
         op2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
+                sell.getContentPane().removeAll();
+                sell.repaint();
                 sell.setTitle("Sell Investments");
                 sell.setJMenuBar(mb);
 
@@ -467,6 +473,126 @@ public class EPortfolio {
                 scroll.setOpaque(false);
                 msgpanel.add(scroll);
 
+                // Displaying the results
+                buyinv.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            String invsymbol = t1.getText();
+                            int invqty = Integer.parseInt(t3.getText());
+                            double invprice = Double.parseDouble(t4.getText());
+                            String symbol = invsymbol;
+                            if (portfolio.getInvestments() != null) {
+                                for (Investment investment : portfolio.getInvestments()) {
+                                    Investment mutualFund = investment;
+                                    if (investment.getType().equals("mutualfund")) {
+                                        investment = portfolio.checkInvestment(symbol); // checks if mutaul fund exists
+                                        if (investment != null) {
+                                            if (mutualFund.getType().equals("mutualfund")) {
+                                                double price = invprice;
+                                                if (price > 0) {
+                                                    mutualFund.setPrice(price);
+                                                    int quantity = invqty;
+                                                    if (quantity > 0) {
+                                                        if (quantity <= mutualFund.getQuantity()) { // checking if there
+                                                                                                    // are sufficient
+                                                                                                    // funds
+                                                            int newQuantity = mutualFund.getQuantity() - quantity;
+                                                            if (newQuantity > 0) {
+                                                                double bookValue = mutualFund.getBookValue()
+                                                                        * newQuantity / mutualFund.getQuantity();
+                                                                mutualFund
+                                                                        .setBookValue(bookValue - mutualFundCommission);
+                                                                mutualFund.setQuantity(newQuantity);
+                                                            } else {
+                                                                portfolio.getInvestments().remove(mutualFund);
+                                                            }
+                                                            String out = "Successfully Sold the Mutual Funds!";
+                                                            display.setText(out);
+                                                            display.setEditable(false);
+                                                        } else {
+                                                            String out = "You don't have enough Mutual Funds to sell!";
+                                                            display.setText(out);
+                                                            display.setEditable(false);
+                                                        }
+                                                    } else {
+                                                        String out = "Quanity can't be Negative or Zero";
+                                                        display.setText(out);
+                                                        display.setEditable(false);
+                                                    }
+                                                } else {
+                                                    String out = "Price can't be Negative or Zero";
+                                                    display.setText(out);
+                                                    display.setEditable(false);
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    } else if (investment.getType().equals("stock")) {
+                                        investment = portfolio.checkInvestment(symbol); // checks if mutaul fund exists
+                                        if (investment != null) {
+                                            // sell stock using symbol
+                                            Investment stock = investment;
+                                            if (stock.getType().equals("stock")) {
+                                                stock.setOldPrice(stock.getPrice());
+                                                double price = invprice;
+                                                if (price > 0) {
+                                                    stock.setPrice(price);
+                                                    int quantity = invqty;
+                                                    if (quantity > 0) {
+                                                        stock.sellqty(quantity);
+                                                        if (quantity <= stock.getQuantity()) { // checking if we have
+                                                                                               // sufficient stocks
+                                                            int newQuantity = stock.getQuantity() - quantity;
+                                                            if (newQuantity > 0) {
+                                                                double val1 = newQuantity;
+                                                                double val2 = stock.getQuantity();
+                                                                double bookValue = stock.getBookValue()
+                                                                        - (stock.getBookValue() * (val1 / val2));
+                                                                stock.setBookValue(bookValue);
+                                                                stock.setQuantity(newQuantity);
+                                                            } else {
+                                                                portfolio.getInvestments().remove(stock);
+                                                            }
+                                                            String out = "Successfully Sold the Stock!";
+                                                            display.setText(out);
+                                                            display.setEditable(false);
+                                                        } else {
+                                                            String out = "You don't have enough stocks to sell in your Portfolio!";
+                                                            display.setText(out);
+                                                            display.setEditable(false);
+                                                        }
+                                                    } else {
+                                                        String out = "Quanity can't be Negative or Zero.";
+                                                        display.setText(out);
+                                                        display.setEditable(false);
+                                                    }
+                                                }
+                                            } else {
+                                                String out = "Price can't be Negative or Zero.";
+                                                display.setText(out);
+                                                display.setEditable(false);
+                                            }
+                                            break;
+                                        } else {
+                                            String out = "Uh oh! There is no such investment in your Portfolio.";
+                                            display.setText(out);
+                                            display.setEditable(false);
+                                        }
+                                    }
+                                }
+                            } else {
+                                String out = "Data Not Found";
+                                display.setText(out);
+                                display.setEditable(false);
+                            }
+                        } catch (Exception error) { // Catching the thrown exceptions
+                            String out = "Something Went Wrong, Please Try Again.\n\nPlease make sure that\n1)You have not left any Field Blank\n2)You have entered an integer value only for Quantity.\n3)You have not entered any text in the Price and Quanity fields.";
+                            display.setText(out);
+                            display.setEditable(false);
+                        }
+                    }
+                });
+
                 reset.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         t1.setText("");
@@ -485,7 +611,15 @@ public class EPortfolio {
             }
         });
 
+        op3.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent ev) {
+
+            }
+        });
+
         op6.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent ev) {
                 System.exit(0);
             }
