@@ -376,6 +376,7 @@ public class EPortfolio {
                 sell.dispose();
                 home.dispose();
                 update.dispose();
+                getgain.dispose();
             }
         });
         // Adding action listener to the sell Menu Item
@@ -616,6 +617,7 @@ public class EPortfolio {
                 home.dispose();
                 buy.dispose();
                 update.dispose();
+                getgain.dispose();
             }
         });
 
@@ -841,6 +843,73 @@ public class EPortfolio {
                 home.dispose();
                 buy.dispose();
                 sell.dispose();
+                getgain.dispose();
+            }
+        });
+
+        op4.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent ev) {
+                getgain.getContentPane().removeAll();
+                getgain.repaint();
+                getgain.setTitle("Sell Investments");
+                getgain.setJMenuBar(mb);
+
+                // Creating Panels for Displaying Components
+                JPanel actionpanel = new JPanel();
+                actionpanel.setLayout(new GridLayout(1, 2, 16, 16));
+                actionpanel.setBackground(new Color(0x222222));
+                actionpanel.setBounds(40, 80, 200, 200);
+
+                // Panel for input fields
+                JPanel inputs = new JPanel();
+                inputs.setLayout(new FlowLayout(FlowLayout.CENTER));
+                inputs.setBackground(new Color(0x222222));
+                Border inputborder = new EmptyBorder(10, 10, 10, 10);
+                inputs.setBorder(inputborder);
+
+                JLabel buyhead = new JLabel("Updating Investments");
+                buyhead.setFont(new Font("Verdana", Font.BOLD, 21));
+                buyhead.setForeground(new Color(0xff4709));
+                Border inputhead = new EmptyBorder(10, 10, 10, 10);
+                inputs.setBorder(inputhead);
+                inputs.add(buyhead);
+
+                // Input for Symbol
+                JLabel symbol = new JLabel("Symbol : ");
+                symbol.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                symbol.setForeground(new Color(0xffffff));
+                inputs.add(symbol);
+                JTextField t1 = new JTextField(10);
+                t1.setFont(new Font("Arial", Font.BOLD, 18));
+                inputs.add(t1);
+
+                actionpanel.add(inputs);
+
+                // Panel for displaying the results
+                JPanel msgpanel = new JPanel();
+                msgpanel.setLayout(new GridLayout(1, 1));
+                msgpanel.setBackground(new Color(0xff4709));
+                msgpanel.setBounds(40, 80, 200, 200);
+
+                // Initialising the Display textarea
+                JTextArea display = new JTextArea(5, 36);
+                display.setFont(new Font("Arial", Font.BOLD, 20));
+                display.setLineWrap(true);
+                display.setWrapStyleWord(true);
+                Border displayborder = new EmptyBorder(25, 25, 25, 25);
+                display.setBorder(displayborder);
+                JScrollPane scroll = new JScrollPane(display);
+                scroll.setForeground(new Color(0xffffff));
+                scroll.setOpaque(false);
+                msgpanel.add(scroll);
+                display.setEditable(false);
+
+                // Disposing the Panels
+                home.dispose();
+                buy.dispose();
+                sell.dispose();
+                update.dispose();
             }
         });
 
