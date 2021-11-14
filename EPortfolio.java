@@ -382,6 +382,7 @@ public class EPortfolio {
                 home.dispose();
                 update.dispose();
                 getgain.dispose();
+                search.dispose();
             }
         });
         // Adding action listener to the sell Menu Item
@@ -626,6 +627,7 @@ public class EPortfolio {
                 buy.dispose();
                 update.dispose();
                 getgain.dispose();
+                search.dispose();
             }
         });
 
@@ -853,6 +855,7 @@ public class EPortfolio {
                 buy.dispose();
                 sell.dispose();
                 getgain.dispose();
+                search.dispose();
             }
         });
 
@@ -974,6 +977,7 @@ public class EPortfolio {
                 buy.dispose();
                 sell.dispose();
                 update.dispose();
+                search.dispose();
             }
         });
 
@@ -985,99 +989,110 @@ public class EPortfolio {
                 search.setTitle("Sell Investments");
                 search.setJMenuBar(mb);
 
-                 // Creating Panels for Displaying Components
-                 JPanel actionpanel = new JPanel();
-                 actionpanel.setLayout(new GridLayout(1, 2, 16, 16));
-                 actionpanel.setBackground(new Color(0x222222));
-                 actionpanel.setBounds(40, 80, 200, 200);
- 
-                 // Panel for input fields
-                 JPanel inputs = new JPanel();
-                 inputs.setLayout(new FlowLayout(FlowLayout.CENTER));
-                 inputs.setBackground(new Color(0x222222));
-                 Border inputborder = new EmptyBorder(10, 10, 10, 10);
-                 inputs.setBorder(inputborder);
- 
-                 JLabel buyhead = new JLabel("Selling an Investment");
-                 buyhead.setFont(new Font("Verdana", Font.BOLD, 21));
-                 buyhead.setForeground(new Color(0xff4709));
-                 Border inputhead = new EmptyBorder(10, 10, 10, 10);
-                 inputs.setBorder(inputhead);
-                 inputs.add(buyhead);
- 
-                 // Input for Symbol
-                 JLabel symbol = new JLabel("Symbol : ");
-                 symbol.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-                 symbol.setForeground(new Color(0xffffff));
-                 inputs.add(symbol);
-                 JTextField t1 = new JTextField(10);
-                 t1.setFont(new Font("Arial", Font.BOLD, 18));
-                 inputs.add(t1);
- 
-                 // Input for Quantity
-                 JLabel qty = new JLabel("Quantity : ");
-                 qty.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-                 qty.setForeground(new Color(0xffffff));
-                 inputs.add(qty);
-                 JTextField t3 = new JTextField(6);
-                 t3.setFont(new Font("Arial", Font.BOLD, 18));
-                 inputs.add(t3);
- 
-                 // Input for Price
-                 JLabel price = new JLabel("Price : ");
-                 price.setFont(new Font("Sans-Serif", Font.BOLD, 20));
-                 price.setForeground(new Color(0xffffff));
-                 inputs.add(price);
-                 JTextField t4 = new JTextField(6);
-                 t4.setFont(new Font("Arial", Font.BOLD, 18));
-                 inputs.add(t4);
- 
-                 // Panel for buttons
-                 JPanel btns = new JPanel();
-                 btns.setLayout(new FlowLayout(FlowLayout.CENTER));
-                 btns.setBackground(new Color(0x222222));
-                 Border btnborder = new EmptyBorder(60, 50, 50, 50);
-                 btns.setBorder(btnborder);
- 
-                 JButton reset = new JButton("Reset");
-                 JButton buyinv = new JButton("Sell");
- 
-                 reset.setFocusable(false);
-                 buyinv.setFocusable(false);
- 
-                 // Styling the Buttons
-                 reset.setBackground(new Color(0xff4709));
-                 reset.setForeground(new Color(0xffffff));
-                 buyinv.setBackground(new Color(0xff4709));
-                 buyinv.setForeground(new Color(0xffffff));
-                 reset.setFont(new Font("Arial", Font.BOLD, 30));
-                 buyinv.setFont(new Font("Arial", Font.BOLD, 30));
-                 reset.setPreferredSize(new Dimension(140, 50));
-                 btns.add(reset);
-                 buyinv.setPreferredSize(new Dimension(140, 50));
-                 btns.add(buyinv);
- 
-                 actionpanel.add(inputs);
-                 actionpanel.add(btns);
- 
-                 // Panel for displaying the results
-                 JPanel msgpanel = new JPanel();
-                 msgpanel.setLayout(new GridLayout(1, 1));
-                 msgpanel.setBackground(new Color(0xff4709));
-                 msgpanel.setBounds(40, 80, 200, 200);
- 
-                 // Initialising the Display textarea
-                 JTextArea display = new JTextArea(5, 36);
-                 display.setFont(new Font("Arial", Font.BOLD, 20));
-                 display.setLineWrap(true);
-                 display.setWrapStyleWord(true);
-                 Border displayborder = new EmptyBorder(25, 25, 25, 25);
-                 display.setBorder(displayborder);
-                 JScrollPane scroll = new JScrollPane(display);
-                 scroll.setForeground(new Color(0xffffff));
-                 scroll.setOpaque(false);
-                 msgpanel.add(scroll);
-                 display.setEditable(false);
+                // Creating Panels for Displaying Components
+                JPanel actionpanel = new JPanel();
+                actionpanel.setLayout(new GridLayout(1, 2, 16, 16));
+                actionpanel.setBackground(new Color(0x222222));
+                actionpanel.setBounds(40, 80, 200, 200);
+
+                // Panel for input fields
+                JPanel inputs = new JPanel();
+                inputs.setLayout(new FlowLayout(FlowLayout.CENTER));
+                inputs.setBackground(new Color(0x222222));
+                Border inputborder = new EmptyBorder(10, 10, 10, 10);
+                inputs.setBorder(inputborder);
+
+                JLabel buyhead = new JLabel("Searching Investments");
+                buyhead.setFont(new Font("Verdana", Font.BOLD, 21));
+                buyhead.setForeground(new Color(0xff4709));
+                Border inputhead = new EmptyBorder(10, 10, 10, 10);
+                inputs.setBorder(inputhead);
+                inputs.add(buyhead);
+
+                // Input for Symbol
+                JLabel symbol = new JLabel("Symbol : ");
+                symbol.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                symbol.setForeground(new Color(0xffffff));
+                inputs.add(symbol);
+                JTextField t1 = new JTextField(10);
+                t1.setFont(new Font("Arial", Font.BOLD, 18));
+                inputs.add(t1);
+
+                // Input for Quantity
+                JLabel qty = new JLabel("Quantity : ");
+                qty.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                qty.setForeground(new Color(0xffffff));
+                inputs.add(qty);
+                JTextField t3 = new JTextField(6);
+                t3.setFont(new Font("Arial", Font.BOLD, 18));
+                inputs.add(t3);
+
+                // Input for Price
+                JLabel price = new JLabel("Price : ");
+                price.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                price.setForeground(new Color(0xffffff));
+                inputs.add(price);
+                JTextField t4 = new JTextField(6);
+                t4.setFont(new Font("Arial", Font.BOLD, 18));
+                inputs.add(t4);
+
+                // Panel for buttons
+                JPanel btns = new JPanel();
+                btns.setLayout(new FlowLayout(FlowLayout.CENTER));
+                btns.setBackground(new Color(0x222222));
+                Border btnborder = new EmptyBorder(60, 50, 50, 50);
+                btns.setBorder(btnborder);
+
+                JButton reset = new JButton("Reset");
+                JButton buyinv = new JButton("Search");
+
+                reset.setFocusable(false);
+                buyinv.setFocusable(false);
+
+                // Styling the Buttons
+                reset.setBackground(new Color(0xff4709));
+                reset.setForeground(new Color(0xffffff));
+                buyinv.setBackground(new Color(0xff4709));
+                buyinv.setForeground(new Color(0xffffff));
+                reset.setFont(new Font("Arial", Font.BOLD, 30));
+                buyinv.setFont(new Font("Arial", Font.BOLD, 30));
+                reset.setPreferredSize(new Dimension(140, 50));
+                btns.add(reset);
+                buyinv.setPreferredSize(new Dimension(140, 50));
+                btns.add(buyinv);
+
+                actionpanel.add(inputs);
+                actionpanel.add(btns);
+
+                // Panel for displaying the results
+                JPanel msgpanel = new JPanel();
+                msgpanel.setLayout(new GridLayout(1, 1));
+                msgpanel.setBackground(new Color(0xff4709));
+                msgpanel.setBounds(40, 80, 200, 200);
+
+                // Initialising the Display textarea
+                JTextArea display = new JTextArea(5, 36);
+                display.setFont(new Font("Arial", Font.BOLD, 20));
+                display.setLineWrap(true);
+                display.setWrapStyleWord(true);
+                Border displayborder = new EmptyBorder(25, 25, 25, 25);
+                display.setBorder(displayborder);
+                JScrollPane scroll = new JScrollPane(display);
+                scroll.setForeground(new Color(0xffffff));
+                scroll.setOpaque(false);
+                msgpanel.add(scroll);
+                display.setEditable(false);
+
+                search.add(actionpanel);
+                search.add(msgpanel);
+                search.setVisible(true);
+
+                // Disposing the Panels
+                home.dispose();
+                sell.dispose();
+                buy.dispose();
+                update.dispose();
+                getgain.dispose();
 
             }
         });
