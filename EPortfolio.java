@@ -33,6 +33,7 @@ public class EPortfolio {
 
     final static double stockCommission = 9.99;
     final static double mutualFundCommission = 45;
+    static int iter = 0;
 
     public static void main(String[] args) {
         portfolio = new PortfolioManager();
@@ -91,6 +92,9 @@ public class EPortfolio {
         // Initialising the frames
         OPFrame buy = new OPFrame();
         OPFrame sell = new OPFrame();
+        OPFrame update = new OPFrame();
+        OPFrame getgain = new OPFrame();
+        OPFrame search = new OPFrame();
 
         // Adding Action Listeners to the Menu Items
         // Adding action listener to the Buy Menu Item
@@ -213,6 +217,7 @@ public class EPortfolio {
                 scroll.setForeground(new Color(0xffffff));
                 scroll.setOpaque(false);
                 msgpanel.add(scroll);
+                display.setEditable(false);
 
                 // Displaying the results
                 buyinv.addActionListener(new ActionListener() {
@@ -370,6 +375,7 @@ public class EPortfolio {
                 // Disposing the Panels
                 sell.dispose();
                 home.dispose();
+                update.dispose();
             }
         });
         // Adding action listener to the sell Menu Item
@@ -472,6 +478,7 @@ public class EPortfolio {
                 scroll.setForeground(new Color(0xffffff));
                 scroll.setOpaque(false);
                 msgpanel.add(scroll);
+                display.setEditable(false);
 
                 // Displaying the results
                 buyinv.addActionListener(new ActionListener() {
@@ -581,7 +588,7 @@ public class EPortfolio {
                                     }
                                 }
                             } else {
-                                String out = "Data Not Found";
+                                String out = "Investment Not Found.";
                                 display.setText(out);
                                 display.setEditable(false);
                             }
@@ -608,13 +615,232 @@ public class EPortfolio {
                 // Disposing the Panels
                 home.dispose();
                 buy.dispose();
+                update.dispose();
             }
         });
 
         op3.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent ev) {
+                update.getContentPane().removeAll();
+                update.repaint();
+                update.setTitle("Sell Investments");
+                update.setJMenuBar(mb);
 
+                // Creating Panels for Displaying Components
+                JPanel actionpanel = new JPanel();
+                actionpanel.setLayout(new GridLayout(1, 2, 16, 16));
+                actionpanel.setBackground(new Color(0x222222));
+                actionpanel.setBounds(40, 80, 200, 200);
+
+                // Panel for input fields
+                JPanel inputs = new JPanel();
+                inputs.setLayout(new FlowLayout(FlowLayout.CENTER));
+                inputs.setBackground(new Color(0x222222));
+                Border inputborder = new EmptyBorder(10, 10, 10, 10);
+                inputs.setBorder(inputborder);
+
+                JLabel buyhead = new JLabel("Updating Investments");
+                buyhead.setFont(new Font("Verdana", Font.BOLD, 21));
+                buyhead.setForeground(new Color(0xff4709));
+                Border inputhead = new EmptyBorder(10, 10, 10, 10);
+                inputs.setBorder(inputhead);
+                inputs.add(buyhead);
+
+                // Input for Symbol
+                JLabel symbol = new JLabel("Symbol : ");
+                symbol.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                symbol.setForeground(new Color(0xffffff));
+                inputs.add(symbol);
+                JTextField t1 = new JTextField(10);
+                t1.setFont(new Font("Arial", Font.BOLD, 18));
+                inputs.add(t1);
+
+                // Input for Name
+                JLabel name = new JLabel("Name : ");
+                name.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                name.setForeground(new Color(0xffffff));
+                inputs.add(name);
+                JTextField t2 = new JTextField(10);
+                t2.setFont(new Font("Arial", Font.BOLD, 18));
+                inputs.add(t2);
+
+                // Input for Price
+                JLabel price = new JLabel("Price : ");
+                price.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                price.setForeground(new Color(0xffffff));
+                inputs.add(price);
+                JTextField t4 = new JTextField(6);
+                t4.setFont(new Font("Arial", Font.BOLD, 18));
+                inputs.add(t4);
+
+                // Panel for buttons
+                JPanel btns = new JPanel();
+                btns.setLayout(new FlowLayout(FlowLayout.CENTER));
+                btns.setBackground(new Color(0x222222));
+                Border btnborder = new EmptyBorder(60, 50, 50, 50);
+                btns.setBorder(btnborder);
+
+                JButton reset = new JButton("Prev");
+                JButton buyinv = new JButton("Next");
+                JButton save = new JButton("Save");
+
+                reset.setFocusable(false);
+                buyinv.setFocusable(false);
+                save.setFocusable(false);
+
+                // Styling the Buttons
+                reset.setBackground(new Color(0xff4709));
+                reset.setForeground(new Color(0xffffff));
+                save.setBackground(new Color(0xff4709));
+                save.setForeground(new Color(0xffffff));
+                buyinv.setBackground(new Color(0xff4709));
+                buyinv.setForeground(new Color(0xffffff));
+                reset.setFont(new Font("Arial", Font.BOLD, 30));
+                save.setFont(new Font("Arial", Font.BOLD, 30));
+                buyinv.setFont(new Font("Arial", Font.BOLD, 30));
+                reset.setPreferredSize(new Dimension(140, 50));
+                btns.add(reset);
+                buyinv.setPreferredSize(new Dimension(140, 50));
+                btns.add(buyinv);
+                save.setPreferredSize(new Dimension(140, 50));
+                btns.add(save);
+
+                actionpanel.add(inputs);
+                actionpanel.add(btns);
+
+                // Panel for displaying the results
+                JPanel msgpanel = new JPanel();
+                msgpanel.setLayout(new GridLayout(1, 1));
+                msgpanel.setBackground(new Color(0xff4709));
+                msgpanel.setBounds(40, 80, 200, 200);
+
+                // Initialising the Display textarea
+                JTextArea display = new JTextArea(5, 36);
+                display.setFont(new Font("Arial", Font.BOLD, 20));
+                display.setLineWrap(true);
+                display.setWrapStyleWord(true);
+                Border displayborder = new EmptyBorder(25, 25, 25, 25);
+                display.setBorder(displayborder);
+                JScrollPane scroll = new JScrollPane(display);
+                scroll.setForeground(new Color(0xffffff));
+                scroll.setOpaque(false);
+                msgpanel.add(scroll);
+                t1.setEditable(false);
+                t2.setEditable(false);
+                display.setEditable(false);
+
+                // Next Button
+                try {
+                    iter = -1;
+                    if (portfolio.getInvestments() != null) { // if investment exist
+                        reset.setEnabled(true);
+                        iter++;
+                        String symb = portfolio.getInvestments().get(iter).getName();
+                        t1.setText(symb);
+                        t1.setEditable(false);
+                        String nameinv = portfolio.getInvestments().get(iter).getName();
+                        t2.setText(nameinv);
+                        t2.setEditable(false);
+                        Double priceinv = portfolio.getInvestments().get(iter).getPrice();
+                        t4.setText(priceinv.toString());
+                    }
+                    if (iter > (portfolio.getInvestments().size()) - 2) {
+                        buyinv.setEnabled(false);
+                    }
+                    buyinv.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            if (portfolio.getInvestments() != null) { // if investment exist
+                                if (iter > (portfolio.getInvestments().size() - 2)) {
+                                    buyinv.setEnabled(false);
+                                } else {
+                                    reset.setEnabled(true);
+                                    ++iter;
+                                    String symb = portfolio.getInvestments().get(iter).getName();
+                                    t1.setText(symb);
+                                    t1.setEditable(false);
+                                    String nameinv = portfolio.getInvestments().get(iter).getName();
+                                    t2.setText(nameinv);
+                                    t2.setEditable(false);
+                                    Double priceinv = portfolio.getInvestments().get(iter).getPrice();
+                                    t4.setText(priceinv.toString());
+                                }
+                            }
+                        }
+                    });
+
+                    // Previous Button
+                    if (iter <= 0) {
+                        reset.setEnabled(false);
+                    }
+                    reset.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
+                            if (portfolio.getInvestments() != null) { // if investment exist
+                                if (iter <= 0) {
+                                    reset.setEnabled(false);
+                                } else {
+                                    buyinv.setEnabled(true);
+                                    --iter;
+                                    String symb = portfolio.getInvestments().get(iter).getName();
+                                    t1.setText(symb);
+                                    t1.setEditable(false);
+                                    String nameinv = portfolio.getInvestments().get(iter).getName();
+                                    t2.setText(nameinv);
+                                    t2.setEditable(false);
+                                    Double priceinv = portfolio.getInvestments().get(iter).getPrice();
+                                    t4.setText(priceinv.toString());
+                                }
+                            }
+                        }
+                    });
+                } catch (Exception error) {
+                    String out = "Your portfolio seems to be empty, please add some items first.";
+                    display.setText(out);
+                    display.setEditable(false);
+                }
+
+                // Save Button
+                save.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            double invprice = Double.parseDouble(t4.getText());
+                            if (portfolio.getInvestments() != null) { // if investment exist
+                                if (invprice > 0) {
+                                    if (invprice != portfolio.getInvestments().get(iter).getPrice()) {
+                                        Double priceinv = portfolio.getInvestments().get(iter).getPrice();
+                                        portfolio.getInvestments().get(iter).setOldPrice(priceinv);
+                                        portfolio.getInvestments().get(iter).setPrice(invprice);
+                                        String out = "Price updated to " + invprice + " per unit for "
+                                                + portfolio.getInvestments().get(iter).getName();
+                                        display.setText(out);
+                                        display.setEditable(false);
+                                    } else {
+                                        String out = "The Price has not changed, No need to save it again.";
+                                        display.setText(out);
+                                        display.setEditable(false);
+                                    }
+                                } else {
+                                    String out = "Price can't be Negative or zero";
+                                    display.setText(out);
+                                    display.setEditable(false);
+                                }
+                            }
+                        } catch (Exception error) {
+                            String out = "Something Went Wrong, Please Try Again.\n\nPlease make sure that you have not entered any text in the Price field or left it blank.";
+                            display.setText(out);
+                            display.setEditable(false);
+                        }
+                        iter--;
+                    }
+                });
+                update.add(actionpanel);
+                update.add(msgpanel);
+                update.setVisible(true);
+
+                // Disposing the Panels
+                home.dispose();
+                buy.dispose();
+                sell.dispose();
             }
         });
 
