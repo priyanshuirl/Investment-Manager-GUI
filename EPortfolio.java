@@ -28,6 +28,8 @@ import javax.swing.JFrame;
 import java.awt.GridLayout;
 
 public class EPortfolio {
+
+    // Initialising the ArrayLists, hashmaps and other variables
     private static PortfolioManager portfolio;
     static ArrayList<String> Investmentsrecords = new ArrayList<>();
     static HashMap<String, String> index = new HashMap<String, String>(50);
@@ -36,6 +38,7 @@ public class EPortfolio {
     final static double mutualFundCommission = 45;
     static int iter = 0;
 
+    // Main function
     public static void main(String[] args) {
         portfolio = new PortfolioManager();
         // Instantiating the Frame for Home Menu
@@ -98,8 +101,8 @@ public class EPortfolio {
         OPFrame search = new OPFrame();
 
         // Adding Action Listeners to the Menu Items
-        // Adding action listener to the Buy Menu Item
 
+        // Adding action listener to the Buy Menu Item
         op1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
                 buy.getContentPane().removeAll();
@@ -359,6 +362,7 @@ public class EPortfolio {
                                     }
                                 }
                             }
+                            // Clearing out the Values in textfields
                             cb.setSelectedIndex(0);
                             t1.setText("");
                             t2.setText("");
@@ -517,8 +521,10 @@ public class EPortfolio {
                             if (portfolio.getInvestments() != null) {
                                 for (Investment investment : portfolio.getInvestments()) {
                                     Investment mutualFund = investment;
+
+                                    // checks if mutual fund exists
                                     if (investment.getType().equals("mutualfund")) {
-                                        investment = portfolio.checkInvestment(symbol); // checks if mutaul fund exists
+                                        investment = portfolio.checkInvestment(symbol);
                                         if (investment != null) {
                                             if (mutualFund.getType().equals("mutualfund")) {
                                                 double price = invprice;
@@ -526,9 +532,9 @@ public class EPortfolio {
                                                     mutualFund.setPrice(price);
                                                     int quantity = invqty;
                                                     if (quantity > 0) {
-                                                        if (quantity <= mutualFund.getQuantity()) { // checking if there
-                                                                                                    // are sufficient
-                                                                                                    // funds
+
+                                                        // Checking if there are sufficient funds
+                                                        if (quantity <= mutualFund.getQuantity()) {
                                                             int newQuantity = mutualFund.getQuantity() - quantity;
                                                             if (newQuantity > 0) {
                                                                 double bookValue = mutualFund.getBookValue()
@@ -561,7 +567,9 @@ public class EPortfolio {
                                         }
                                         break;
                                     } else if (investment.getType().equals("stock")) {
-                                        investment = portfolio.checkInvestment(symbol); // checks if mutaul fund exists
+
+                                        // checks if mutual fund exists
+                                        investment = portfolio.checkInvestment(symbol);
                                         if (investment != null) {
                                             // sell stock using symbol
                                             Investment stock = investment;
@@ -573,8 +581,8 @@ public class EPortfolio {
                                                     int quantity = invqty;
                                                     if (quantity > 0) {
                                                         stock.sellqty(quantity);
-                                                        if (quantity <= stock.getQuantity()) { // checking if we have
-                                                                                               // sufficient stocks
+                                                        // Checking if we have sufficient stocks
+                                                        if (quantity <= stock.getQuantity()) {
                                                             int newQuantity = stock.getQuantity() - quantity;
                                                             if (newQuantity > 0) {
                                                                 double val1 = newQuantity;
@@ -618,6 +626,7 @@ public class EPortfolio {
                                 display.setText(out);
                                 display.setEditable(false);
                             }
+                            // Clearing out the values from the textfileds
                             t1.setText("");
                             t3.setText("");
                             t4.setText("");
@@ -629,6 +638,7 @@ public class EPortfolio {
                     }
                 });
 
+                // Reset Button
                 reset.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         t1.setText("");
@@ -650,6 +660,7 @@ public class EPortfolio {
             }
         });
 
+        // Adding action listener to the Update Menu Item
         op3.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent ev) {
@@ -788,7 +799,8 @@ public class EPortfolio {
                     }
                     buyinv.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            if (portfolio.getInvestments() != null) { // if investment exist
+                            // Check if the investmennt exists
+                            if (portfolio.getInvestments() != null) {
                                 if (iter > (portfolio.getInvestments().size() - 2)) {
                                     buyinv.setEnabled(false);
                                 } else {
@@ -813,7 +825,8 @@ public class EPortfolio {
                     }
                     reset.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                            if (portfolio.getInvestments() != null) { // if investment exist
+                            // Cheking if investment exists
+                            if (portfolio.getInvestments() != null) {
                                 if (iter <= 0) {
                                     reset.setEnabled(false);
                                 } else {
@@ -831,6 +844,7 @@ public class EPortfolio {
                             }
                         }
                     });
+                    // Catching the errors
                 } catch (Exception error) {
                     String out = "Your portfolio seems to be empty, please add some items first.";
                     display.setText(out);
@@ -842,7 +856,8 @@ public class EPortfolio {
                     public void actionPerformed(ActionEvent e) {
                         try {
                             double invprice = Double.parseDouble(t4.getText());
-                            if (portfolio.getInvestments() != null) { // if investment exist
+                            // Checking if the investment exist
+                            if (portfolio.getInvestments() != null) {
                                 if (invprice > 0) {
                                     if (invprice != portfolio.getInvestments().get(iter).getPrice()) {
                                         Double priceinv = portfolio.getInvestments().get(iter).getPrice();
@@ -863,6 +878,7 @@ public class EPortfolio {
                                     display.setEditable(false);
                                 }
                             }
+                            // catching the exceptions
                         } catch (Exception error) {
                             String out = "Something Went Wrong, Please Try Again.\n\nPlease make sure that you have not entered any text in the Price field or left it blank.";
                             display.setText(out);
@@ -884,6 +900,7 @@ public class EPortfolio {
             }
         });
 
+        // Adding action listener to the Get Gain Menu Item
         op4.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent ev) {
@@ -954,6 +971,7 @@ public class EPortfolio {
 
                 String gainstr = "";
 
+                // Calculating the gain
                 double sgain = 0, mgain = 0, tgain, gainstock = 0, gainmf = 0;
                 if (portfolio.getInvestments() != null) {
                     for (Investment stock : portfolio.getInvestments()) {
@@ -1006,6 +1024,7 @@ public class EPortfolio {
             }
         });
 
+        // Adding action listeners to the Search Menu item
         op5.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent ev) {
@@ -1043,7 +1062,7 @@ public class EPortfolio {
                 t1.setFont(new Font("Arial", Font.BOLD, 18));
                 inputs.add(t1);
 
-                // Input for Quantity
+                // Input for Keywords
                 JLabel qty = new JLabel("Name Keywords : ");
                 qty.setFont(new Font("Sans-Serif", Font.BOLD, 18));
                 qty.setForeground(new Color(0xffffff));
@@ -1262,9 +1281,8 @@ public class EPortfolio {
 
             }
         });
-
+        // Adding action listeners to the Quit menu item
         op6.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent ev) {
                 System.exit(0);
             }
