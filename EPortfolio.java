@@ -4,7 +4,9 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,7 +22,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.FontUIResource;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -202,12 +203,18 @@ public class EPortfolio {
 
                 // Panel for displaying the results
                 JPanel msgpanel = new JPanel();
-                msgpanel.setLayout(new GridLayout(1, 1));
-                msgpanel.setBackground(new Color(0xff4709));
+                msgpanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                msgpanel.setBackground(new Color(0xffffff));
                 msgpanel.setBounds(40, 80, 200, 200);
 
+                JLabel gainh = new JLabel("Messages : ");
+                gainh.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                gainh.setForeground(new Color(0xff4709));
+                Border gaint = new EmptyBorder(10, 10, 10, 10);
+                gainh.setBorder(gaint);
+
                 // Initialising the Display textarea
-                JTextArea display = new JTextArea(5, 36);
+                JTextArea display = new JTextArea(5, 30);
                 display.setFont(new Font("Arial", Font.BOLD, 20));
                 display.setLineWrap(true);
                 display.setWrapStyleWord(true);
@@ -216,8 +223,11 @@ public class EPortfolio {
                 JScrollPane scroll = new JScrollPane(display);
                 scroll.setForeground(new Color(0xffffff));
                 scroll.setOpaque(false);
-                msgpanel.add(scroll);
+                scroll.setBorder(null);
                 display.setEditable(false);
+
+                msgpanel.add(gainh);
+                msgpanel.add(scroll);
 
                 // Displaying the results
                 buyinv.addActionListener(new ActionListener() {
@@ -470,12 +480,18 @@ public class EPortfolio {
 
                 // Panel for displaying the results
                 JPanel msgpanel = new JPanel();
-                msgpanel.setLayout(new GridLayout(1, 1));
-                msgpanel.setBackground(new Color(0xff4709));
+                msgpanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                msgpanel.setBackground(new Color(0xffffff));
                 msgpanel.setBounds(40, 80, 200, 200);
 
+                JLabel gainh = new JLabel("Messages : ");
+                gainh.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                gainh.setForeground(new Color(0xff4709));
+                Border gaint = new EmptyBorder(10, 10, 10, 10);
+                gainh.setBorder(gaint);
+
                 // Initialising the Display textarea
-                JTextArea display = new JTextArea(5, 36);
+                JTextArea display = new JTextArea(5, 30);
                 display.setFont(new Font("Arial", Font.BOLD, 20));
                 display.setLineWrap(true);
                 display.setWrapStyleWord(true);
@@ -484,8 +500,11 @@ public class EPortfolio {
                 JScrollPane scroll = new JScrollPane(display);
                 scroll.setForeground(new Color(0xffffff));
                 scroll.setOpaque(false);
-                msgpanel.add(scroll);
+                scroll.setBorder(null);
                 display.setEditable(false);
+
+                msgpanel.add(gainh);
+                msgpanel.add(scroll);
 
                 // Displaying the results
                 buyinv.addActionListener(new ActionListener() {
@@ -636,7 +655,7 @@ public class EPortfolio {
             public void actionPerformed(ActionEvent ev) {
                 update.getContentPane().removeAll();
                 update.repaint();
-                update.setTitle("Sell Investments");
+                update.setTitle("Updating Investments");
                 update.setJMenuBar(mb);
 
                 // Creating Panels for Displaying Components
@@ -723,12 +742,18 @@ public class EPortfolio {
 
                 // Panel for displaying the results
                 JPanel msgpanel = new JPanel();
-                msgpanel.setLayout(new GridLayout(1, 1));
-                msgpanel.setBackground(new Color(0xff4709));
+                msgpanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                msgpanel.setBackground(new Color(0xffffff));
                 msgpanel.setBounds(40, 80, 200, 200);
 
+                JLabel gainh = new JLabel("Messages : ");
+                gainh.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                gainh.setForeground(new Color(0xff4709));
+                Border gaint = new EmptyBorder(10, 10, 10, 10);
+                gainh.setBorder(gaint);
+
                 // Initialising the Display textarea
-                JTextArea display = new JTextArea(5, 36);
+                JTextArea display = new JTextArea(5, 30);
                 display.setFont(new Font("Arial", Font.BOLD, 20));
                 display.setLineWrap(true);
                 display.setWrapStyleWord(true);
@@ -737,10 +762,11 @@ public class EPortfolio {
                 JScrollPane scroll = new JScrollPane(display);
                 scroll.setForeground(new Color(0xffffff));
                 scroll.setOpaque(false);
-                msgpanel.add(scroll);
-                t1.setEditable(false);
-                t2.setEditable(false);
+                scroll.setBorder(null);
                 display.setEditable(false);
+
+                msgpanel.add(gainh);
+                msgpanel.add(scroll);
 
                 // Next Button
                 try {
@@ -837,7 +863,6 @@ public class EPortfolio {
                                     display.setEditable(false);
                                 }
                             }
-                            display.setText("");
                         } catch (Exception error) {
                             String out = "Something Went Wrong, Please Try Again.\n\nPlease make sure that you have not entered any text in the Price field or left it blank.";
                             display.setText(out);
@@ -864,7 +889,7 @@ public class EPortfolio {
             public void actionPerformed(ActionEvent ev) {
                 getgain.getContentPane().removeAll();
                 getgain.repaint();
-                getgain.setTitle("Sell Investments");
+                getgain.setTitle("Get Total Gain");
                 getgain.setJMenuBar(mb);
 
                 // Creating Panels for Displaying Components
@@ -986,7 +1011,7 @@ public class EPortfolio {
             public void actionPerformed(ActionEvent ev) {
                 search.getContentPane().removeAll();
                 search.repaint();
-                search.setTitle("Sell Investments");
+                search.setTitle("Searching Investments");
                 search.setJMenuBar(mb);
 
                 // Creating Panels for Displaying Components
@@ -1011,7 +1036,7 @@ public class EPortfolio {
 
                 // Input for Symbol
                 JLabel symbol = new JLabel("Symbol : ");
-                symbol.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                symbol.setFont(new Font("Sans-Serif", Font.BOLD, 18));
                 symbol.setForeground(new Color(0xffffff));
                 inputs.add(symbol);
                 JTextField t1 = new JTextField(10);
@@ -1019,22 +1044,31 @@ public class EPortfolio {
                 inputs.add(t1);
 
                 // Input for Quantity
-                JLabel qty = new JLabel("Quantity : ");
-                qty.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                JLabel qty = new JLabel("Name Keywords : ");
+                qty.setFont(new Font("Sans-Serif", Font.BOLD, 18));
                 qty.setForeground(new Color(0xffffff));
                 inputs.add(qty);
                 JTextField t3 = new JTextField(6);
                 t3.setFont(new Font("Arial", Font.BOLD, 18));
                 inputs.add(t3);
 
-                // Input for Price
-                JLabel price = new JLabel("Price : ");
-                price.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                // Input for low Price
+                JLabel price = new JLabel("Low Price : ");
+                price.setFont(new Font("Sans-Serif", Font.BOLD, 18));
                 price.setForeground(new Color(0xffffff));
                 inputs.add(price);
-                JTextField t4 = new JTextField(6);
+                JTextField t4 = new JTextField(4);
                 t4.setFont(new Font("Arial", Font.BOLD, 18));
                 inputs.add(t4);
+
+                // Input for high Price
+                JLabel lowp = new JLabel("High Price : ");
+                lowp.setFont(new Font("Sans-Serif", Font.BOLD, 18));
+                lowp.setForeground(new Color(0xffffff));
+                inputs.add(lowp);
+                JTextField t5 = new JTextField(4);
+                t5.setFont(new Font("Arial", Font.BOLD, 18));
+                inputs.add(t5);
 
                 // Panel for buttons
                 JPanel btns = new JPanel();
@@ -1066,12 +1100,18 @@ public class EPortfolio {
 
                 // Panel for displaying the results
                 JPanel msgpanel = new JPanel();
-                msgpanel.setLayout(new GridLayout(1, 1));
-                msgpanel.setBackground(new Color(0xff4709));
+                msgpanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                msgpanel.setBackground(new Color(0xffffff));
                 msgpanel.setBounds(40, 80, 200, 200);
 
+                JLabel gainh = new JLabel("Search Results : ");
+                gainh.setFont(new Font("Sans-Serif", Font.BOLD, 20));
+                gainh.setForeground(new Color(0xff4709));
+                Border gaint = new EmptyBorder(10, 10, 10, 10);
+                gainh.setBorder(gaint);
+
                 // Initialising the Display textarea
-                JTextArea display = new JTextArea(5, 36);
+                JTextArea display = new JTextArea(5, 30);
                 display.setFont(new Font("Arial", Font.BOLD, 20));
                 display.setLineWrap(true);
                 display.setWrapStyleWord(true);
@@ -1080,8 +1120,134 @@ public class EPortfolio {
                 JScrollPane scroll = new JScrollPane(display);
                 scroll.setForeground(new Color(0xffffff));
                 scroll.setOpaque(false);
-                msgpanel.add(scroll);
+                scroll.setBorder(null);
                 display.setEditable(false);
+
+                msgpanel.add(gainh);
+                msgpanel.add(scroll);
+                buyinv.addActionListener(new ActionListener() {
+                    String sresult = "";
+
+                    public void actionPerformed(ActionEvent e) {
+                        double lowprice = 0, highprice = 0;
+                        try {
+                            String invsymbol = t1.getText();
+                            String namekw = t3.getText();
+                            if (t4.getText().length() > 0 && t5.getText().length() > 0) {
+                                lowprice = Double.parseDouble(t4.getText());
+                                highprice = Double.parseDouble(t5.getText());
+                            } else if (!(t4.getText().length() > 0) && t5.getText().length() > 0) {
+                                lowprice = 0;
+                                highprice = Double.parseDouble(t5.getText());
+                            } else if (t4.getText().length() > 0 && !(t5.getText().length() > 0)) {
+                                lowprice = Double.parseDouble(t4.getText());
+                                highprice = Integer.MAX_VALUE;
+                            }
+
+                            // Search using Symbol
+                            if (invsymbol.length() != 0) {
+                                String searchSym = invsymbol;
+                                Investment investresult = portfolio.checkInvestment(searchSym);
+                                sresult += "Investment with the Symbol " + searchSym + " is\n\n";
+                                sresult += investresult.toString() + "\n";
+                            }
+
+                            // Search Using Keyword
+                            if (namekw.length() != 0) {
+                                ArrayList<Integer> value = new ArrayList<Integer>();
+                                if (portfolio.getInvestments() != null) {
+                                    for (Investment investment : portfolio.getInvestments()) {
+                                        String invname = investment.getName();
+                                        String[] tokens = invname.split(" ");
+                                        for (int i = 0; i < tokens.length; i++) {
+                                            for (int j = 0; j < portfolio.getInvestments().size(); j++) {
+                                                String text = portfolio.getInvestments().get(j).getName();
+                                                if (text.contains(tokens[i])) {
+                                                    value.add(j);
+                                                }
+                                            }
+                                            StringBuffer sb = new StringBuffer();
+
+                                            for (int s : value) {
+                                                sb.append(s);
+                                                sb.append(" ");
+                                            }
+                                            String str = sb.toString();
+                                            index.put(tokens[i].toLowerCase(), str);
+                                            value.clear();
+                                        }
+                                    }
+                                }
+                                String keyw = namekw;
+                                String[] keyar = keyw.split(" ");
+                                ArrayList<Integer> intlist = new ArrayList<>();
+                                for (int k = 0; k < keyar.length; k++) {
+                                    String word = keyar[k];
+                                    String listval = index.get(word);
+                                    if (!(listval == null)) {
+                                        String[] result = listval.split(" ");
+                                        for (int p = 0; p < result.length; p++) {
+                                            int pt = Integer.parseInt(result[p]);
+                                            intlist.add(pt);
+                                        }
+                                    }
+                                }
+                                Set<Integer> ss = new LinkedHashSet<Integer>(intlist);
+                                Set<String> s = ss.stream().map(String::valueOf).collect(Collectors.toSet());
+                                String[] str1 = new String[s.size()];
+                                int x = 0;
+                                for (String str : s) {
+                                    str1[x++] = str;
+                                }
+                                if (s.size() <= 0) {
+                                    sresult += "\n No Results found for the keyword " + keyw + "\n";
+                                } else {
+                                    sresult += "\nSearch Results found for the keyword " + keyw + "\n\n";
+                                    for (int i = 0; i < s.size(); i++) {
+                                        int pt = Integer.parseInt(str1[i]);
+                                        for (int j = 0; j < portfolio.getInvestments().size(); j++) {
+                                            if (pt == j) {
+                                                sresult += portfolio.getInvestments().get(j).toString() + "\n";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Search using price range
+                            if ((lowprice >= 0 || highprice >= 0) && !(lowprice == 0 && highprice == 0)) {
+                                String investmentrange = portfolio.rangeInvestment(highprice, lowprice);
+                                sresult += "\n\nInvestments in the given range are : \n\n";
+                                sresult += investmentrange;
+                            }
+
+                            // Displaying the result in textarea
+                            String out = sresult;
+                            display.setText(out);
+                            display.setEditable(false);
+
+                            sresult = "";
+                            t1.setText("");
+                            t3.setText("");
+                            t4.setText("");
+                            t5.setText("");
+                        } catch (Exception error) { // Catching the thrown exceptions
+                            String out = "Something Went Wrong, Please Try Again.\n\nPlease make sure that\n1)You have not left any Field Blank\n2)You have entered an integer value only for Quantity.\n3)You have not entered any text in the Price and Quanity fields.";
+                            display.setText(out);
+                            display.setEditable(false);
+                        }
+                    }
+                });
+
+                // reset button to clear out all the fields
+                reset.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        t1.setText("");
+                        t3.setText("");
+                        t4.setText("");
+                        display.setText("");
+                    }
+                });
 
                 search.add(actionpanel);
                 search.add(msgpanel);

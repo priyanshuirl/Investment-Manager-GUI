@@ -21,15 +21,20 @@ public class PortfolioManager {
         return null;
     }
 
-    public Investment rangeInvestment(double upper, double lower) {
+    public String rangeInvestment(double upper, double lower) {
+        String retval = "";
         if (investments != null) {
-            for (Investment investments : investments) {
-                if (investments.getPrice() < upper && investments.getPrice() > lower) {
-                    return investments;
+            for (Investment investmentr : investments) {
+                if (investmentr.getPrice() <= upper && investmentr.getPrice() >= lower) {
+                    retval += investmentr.toString() + "\n";
                 }
             }
         }
-        return null;
+        if (retval != "") {
+            return retval;
+        } else {
+            return "No Investments found in the Given Range";
+        }
     }
 
     public void addInvestments(Investment investment) {
