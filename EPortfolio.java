@@ -1298,7 +1298,7 @@ public class EPortfolio {
         // Creating the intro description
         JTextArea description = new JTextArea(5, 36);
         description.setText(
-                "Choose a command by clicking an Option from the “Commands” menu above to buy or sell an investment, update prices for all investments, get gain for the portfolio, search for relevant investments, or quit the program.");
+                "Choose a command by clicking an Option from the Commands menu above to buy or sell an investment, update prices for all investments, get gain for the portfolio, search for relevant investments, or quit the program.");
         description.setFont(new Font("Verdana", Font.PLAIN, 16));
         description.setForeground(new Color(0xffffff));
         description.setLineWrap(true);
